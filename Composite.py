@@ -1,16 +1,35 @@
-def bubble_sort(arr):
-    n = len(arr)
-    # Traverse through all elements in the array
-    for i in range(n):
-        # Last i elements are already in place, so ignore them
-        for j in range(0, n - i - 1):
-            # Swap if the element found is greater than the next
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+
+    # Divide the array into two halves
+    mid = len(arr) // 2
+    left_half = merge_sort(arr[:mid])
+    right_half = merge_sort(arr[mid:])
+
+    # Merge the sorted halves
+    return merge(left_half, right_half)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+
+    # Compare elements from both halves and append the smaller one
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+
+    # Append any remaining elements
+    result.extend(left[i:])
+    result.extend(right[j:])
+    
+    return result
 
 # Example usage
-arr = [64, 34, 25, 12, 22, 11, 90]
-bubble_sort(arr)
-print("Sorted array:", arr)
-
-
+arr = [38, 27, 43, 3, 9, 82, 10]
+sorted_arr = merge_sort(arr)
+print("Sorted array:", sorted_arr)
